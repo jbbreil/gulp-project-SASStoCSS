@@ -1,0 +1,173 @@
+@import 'base', 'navigation';
+
+body {
+  max-width: 900px;
+  font-family: Copse, Helvetica, sans-serif;
+  letter-spacing: 0.1em;
+  line-height: 1.5em;
+  font-size: 1.2em;
+  color: #333;
+  font-weight: 300;
+}
+
+header,
+main,
+footer {
+  background-color: $backgrouond;
+  padding: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: $primary-color;
+}
+
+.box {
+  @include box;
+}
+
+.boxes-style {
+  @include boxes;
+}
+
+.boxes {
+  display: flex;
+  padding: 30px;
+  min-height: 29em;
+  background-color: $backgrouond;
+}
+
+.background-color-a {
+  background-color: $color1;
+}
+
+.background-color-b {
+  background-color: $color2;
+}
+
+.background-color-c {
+  background-color: $color3;
+}
+
+.background-color-d {
+  background-color: $color4;
+}
+
+.background-color-e {
+  background-color: $color5;
+}
+
+#home-header h1 {
+    color: $color1;
+}
+
+#colorScheme-header h1 {
+    color: $color2;
+}
+
+#news-header h1 {
+    color: $color3;
+}
+
+#contact-header h1 {
+    color: $color4;
+}
+
+#about--header h1 {
+    color: $color5;
+}
+
+// IMAGES CARD
+  .pic-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  img{
+    width: 100%;
+  }
+  img:hover {
+    @include image-transform(scale(1.05, 1.05), .3s ease-out);
+  }
+  .pic-card {
+    @include image-default;
+  }
+  .pic-card-box {
+    overflow: hidden;
+    background-color: $backgrouond;
+    z-index: 999;
+  }
+  .pic-card-text {
+    padding: 20px;
+  }
+  // CONTACT 
+  .fa-phone,
+  .fa-envelope {
+    color: $color4;
+  }
+  .classtwo {
+    width: 100%;
+  }
+  .contac-form {
+    @extend .box;
+  }
+form {
+  width: 100%;
+  display: inline-grid;
+}
+  // FOOTER
+footer p {
+  text-align: center;
+}
+  span {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+// MOBILE MENU
+
+.topnav a.icon {
+  display: none;
+}
+
+
+// MOBILE RESOLUTION
+
+@media only screen and (max-width: 610px) {
+  h1 {
+    line-height: 1.5em;
+  }
+  // PICS CARD
+  .pic-container {
+    display: block;
+    width: 100%;
+    padding: 10px;
+  }
+  .classone {
+    width: 100%;
+  }
+  .pic-card {
+    width: 100%;
+    margin: 0;
+  }
+  // MENU
+  .topnav a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav {
+    background-color: #e4dcdc;
+    position: relative;
+  }
+  .topnav #myLinks {
+    display: none;
+  }
+  .topnav a {
+    padding: 14px 16px;
+  }
+  nav ul {
+    display: grid;
+  }
+  .topnav a.icon {
+    display: block;
+  }
+}
