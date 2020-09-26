@@ -7,9 +7,11 @@ var cleanCSS = require('gulp-clean-css'); // Process CSS files to minimize size.
 var uglify = require('gulp-uglify-es').default; // Minimizes the size of Javascript´ files.
 const htmlmin = require('gulp-htmlmin'); // Minimizes the size of html´ files.
 const image = require('gulp-image');
+var babel = require("gulp-babel");
 
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
+
 
 // Create Files´paths object
 const files = {
@@ -18,6 +20,17 @@ const files = {
     jsPath: 'src/**/*.js',
     sassPath: 'src/**/*.scss',
     imgPath: 'src/**/*.jpg',
+}
+
+// Babel
+function babelTranspile () {
+    return src(files.jsPath)
+    .pipe(sourcemaps.init()) 
+    .pipe(babel())
+    .pipe(concat('main.js'))
+    .pipe(sourcemaps.write('./maps'))
+    .pipe(dest("pub/js"))
+    .pipe(browserSync.stream());
 }
 
 // Copy HTML´S files 
@@ -31,8 +44,8 @@ function htmlFiles () {
 // Concat and compress JAVASCRIPT´S files
 function jsFiles () {
     return src(files.jsPath) // Tells the Gulp task what files to use for the task
-    .pipe(concat('main.js')) // Concat all js-files into the main.js
     .pipe(uglify()) // Minimizes the size of Javascript´ files by removing whitespace and commets
+    .pipe(concat('main.js')) // Concat all js-files into the main.js
     .pipe(dest('pub/js')) // Save those files into pub-directory
     .pipe(browserSync.stream()); // Synchronize files´changes to all browser
     }
@@ -50,11 +63,11 @@ function cssFiles () {
 function imgFiles () {
     return src(files.imgPath)
     .pipe(image())
-    .pipe(dest('pub/images'))
+    .pipe(dest('pub/'))
     .pipe(browserSync.stream()); // Synchronize files´changes to all browser
     }
 
-// Concat and compress SASS´ files
+    // Concat and compress SASS´ files
 function sassFiles () {
     return src(files.sassPath) // Tells the Gulp task what files to use for the task
     .pipe(sourcemaps.init()) 
@@ -72,13 +85,13 @@ function watchTask () {
         }
     });
     // Look after files´changes 
-    watch([files.htmlPath, files.jsPath, files.cssPath, files.sassPath, files.imgPath], parallel(htmlFiles, jsFiles, cssFiles, sassFiles, imgFiles)).on("change", reload); 
+    watch([files.htmlPath, files.jsPath, files.cssPath, files.sassPath, files.imgPath], parallel(htmlFiles, jsFiles, cssFiles, sassFiles, imgFiles, babelTranspile)).on("change", reload); 
     }
 
 
 // Export private tasks
 exports.default = series(
-    parallel(htmlFiles, jsFiles, cssFiles, sassFiles, imgFiles), // Runs all tasks simultaneously
+    parallel(htmlFiles, jsFiles, cssFiles, sassFiles, imgFiles, babelTranspile), // Runs all tasks simultaneously
     watchTask // Look after changes in the tasks´s files
 );
 
